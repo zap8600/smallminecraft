@@ -138,11 +138,32 @@ uint32_t addItemToInventory(uint32_t item) {
     return 1;
 }
 
+void drawItemInGrid(uint32_t x, uint32_t y, uint32_t item) {
+    x += 8;
+    y += 8
+    uint32_t x1 = x;
+    uint32_t y1 = y;
+    uint32_t x2 = x + 56;
+    uint32_t y2 = y + 56;
+
+    CNFGColor(0x00000000);
+    CNFGTackRectangle(x1, y1, x2, y2);
+}
+
+void drawGUIRowInGrid(uint32_t x, uint32_t y, uint32_t length, uint32_t* items) {
+    //
+}
+
 void reset2x2CraftingGrid() {
     uint32_t ind = 0;
-    while(ind <= craftingOutput) {
-        //
+    while(ind < 9) {
+        addItemToInventory(craftingGrid[ind]);
+        craftingGrid[ind] = 0;
+        ind++;
     }
+
+    CNFGColor(0x00000000);
+    CNFGTackRectangle(208, 72, 352, 216);
 }
 
 void loadInventoryGUI() {
