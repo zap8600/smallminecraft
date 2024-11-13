@@ -148,10 +148,34 @@ void drawItemInGrid(uint32_t x, uint32_t y, uint32_t item) {
 
     CNFGColor(0x00000000);
     CNFGTackRectangle(x1, y1, x2, y2);
+
+    if(!item) {
+        // Draw empty texture
+        return;
+    }
+
+    if(item > 0xF0) {
+        // Draw stackable item
+
+        item &= 0x0F;
+        // Add number texture
+        x += 8;
+        y += 8;
+        // Draw textures
+        return;
+    }
+
+    // Draw item texture
 }
 
 void drawGUIRowInGrid(uint32_t x, uint32_t y, uint32_t length, uint32_t* items) {
-    //
+    uint32_t ind = 0;
+    while(length != 0) {
+        drawItemInGrid(x, y, items[ind]);
+        x += 72;
+        ind++;
+        length--;
+    }
 }
 
 void reset2x2CraftingGrid() {
@@ -164,6 +188,13 @@ void reset2x2CraftingGrid() {
 
     CNFGColor(0x00000000);
     CNFGTackRectangle(208, 72, 352, 216);
+
+    drawGUIRowInGrid(208, 72, 2, craftingGrid);
+
+    drawGUIRowInGrid(144, 72, 2, craftingGrid);
+
+    drawItem(480, 112, 0, 1);
+    drawItemInGrid(480, 112, 0);
 }
 
 void loadInventoryGUI() {
