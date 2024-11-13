@@ -100,12 +100,17 @@ uint32_t addItemToInventory(uint32_t item) {
     uint32_t ind = 0; 
     uint32_t newItemId = item & 0xF0;
     if(newItemId != 0xF0) {
-        uint32_t itemId = inventory[ind] & 0xF0;
-        if(itemId == newItemId) {
-            uint32_t sumItemCount = (item & 0x0F) + (inventory[ind] & 0x0F);
-            if(sumItemCount > 16) {
-                inventory[ind] = itemId + sumItemCount;
-                return 0;
+        while(ind < 15) {
+            uint32_t itemId = inventory[ind] & 0xF0;
+            if(itemId == newItemId) {
+                uint32_t sumItemCount = (item & 0x0F) + (inventory[ind] & 0x0F);
+                if(sumItemCount > 16) {
+                    inventory[ind] = itemId + sumItemCount;
+                    return 0;
+                } else {
+                    inventory[ind] |= 15;
+                    
+                }
             }
         }
     }
