@@ -14,6 +14,7 @@ uint32_t inventory[15];
 uint32_t inventorySlot;
 
 uint32_t craftingGrid[9];
+uint32_t craftingOutpu;
 
 void drawItem(uint32_t x, uint32_t y, uint32_t item, uint32_t isselected) {
     uint32_t x1 = x;
@@ -109,11 +110,32 @@ uint32_t addItemToInventory(uint32_t item) {
                     return 0;
                 } else {
                     inventory[ind] |= 15;
-                    
+                    newItemId += sumItemCount;
                 }
             }
+            ind++;
         }
     }
+    ind = 0;
+    while(ind < 15) {
+        uint32_t itemId = inventory[ind]; 
+        if(!itemId) {
+            inventory[ind] = item;
+            return 0;
+        }
+        if((item > 0xF0) && (newItemId == (itemId &= 0xF0))) {
+            uint32_t sumItemCount = (item & 0x0F) + (item & 0x0F);
+            if(sumItemCount > 16) {
+                inventory[ind] = itemId + sumItemCount;
+                return 0;
+            } else {
+                inventory[ind] |= 15;
+                return 0;
+            }
+        }
+        ind++;
+    }
+    return 1;
 }
 
 void reset2x2CraftingGrid() {
