@@ -14,7 +14,7 @@ uint32_t inventory[15];
 uint32_t inventorySlot;
 
 uint32_t craftingGrid[9];
-uint32_t craftingOutpu;
+uint32_t craftingOutput;
 
 void drawItem(uint32_t x, uint32_t y, uint32_t item, uint32_t isselected) {
     uint32_t x1 = x;
@@ -139,7 +139,10 @@ uint32_t addItemToInventory(uint32_t item) {
 }
 
 void reset2x2CraftingGrid() {
-    //
+    uint32_t ind = 0;
+    while(ind <= craftingOutput) {
+        //
+    }
 }
 
 void loadInventoryGUI() {
