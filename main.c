@@ -77,8 +77,8 @@ uint32_t craftingOutput;
 void drawItem(uint32_t x, uint32_t y, uint32_t item, uint32_t isselected) {
     uint32_t x1 = x;
     uint32_t y1 = y;
-    uint32_t x2 = x + 72;
-    uint32_t y2 = y + 72;
+    uint32_t x2 = x + 80;
+    uint32_t y2 = y + 80;
     x += 8;
     y += 8;
 
@@ -95,7 +95,7 @@ void drawItem(uint32_t x, uint32_t y, uint32_t item, uint32_t isselected) {
     CNFGColor(0x00000000);
     CNFGTackRectangle(x1, y1, x2, y2);
 
-    if(!item) {
+    if(item == 0) {
         return;
     }
 
@@ -115,7 +115,7 @@ void drawItem(uint32_t x, uint32_t y, uint32_t item, uint32_t isselected) {
     } else { // Nonstackable item
         uint32_t textureid = item >> 4;
         textureid += 0x50;
-        drawTexture(x1, y1, textureid);
+        drawTexture(x1 + 8, y1 + 8, textureid);
     }
 
     return;
@@ -137,17 +137,17 @@ void drawGUIRow(uint32_t x, uint32_t y, uint32_t length, uint32_t* items, uint32
 
 void drawInventory() {
     CNFGColor(0x00000000);
-    CNFGTackRectangle(152, 0, 608, 504);
+    CNFGTackRectangle(152, 0, 608, 512);
 
     CNFGColor(0xffffffff);
-    CNFGTackRectangle(160, 0, 600, 504);
+    CNFGTackRectangle(160, 0, 600, 512);
 
 //drawInventoryOnlyInventoryPart
     CNFGColor(0x00000000);
-    CNFGTackRectangle(152, 232, 608, 504);
+    CNFGTackRectangle(152, 232, 608, 512);
 
     CNFGColor(0xffffffff);
-    CNFGTackRectangle(160, 232, 600, 504);
+    CNFGTackRectangle(160, 232, 600, 512);
 
     drawGUIRow(168, 424, 5, inventory, inventorySlot);
 
@@ -209,7 +209,7 @@ void drawItemInGrid(uint32_t x, uint32_t y, uint32_t item) {
     CNFGTackRectangle(x1, y1, x2, y2);
 
     if(!item) {
-        // Draw empty texture
+        drawTexture(x1, y1, 0x61);
         return;
     }
 
