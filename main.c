@@ -11,9 +11,13 @@ int movement;
 void HandleKey( int keycode, int bDown ) {
     if(keycode == 0x65 && bDown) {
         ininventory = !ininventory;
-    } else {
+    } else if(bDown) {
         switch(keycode) {
-            //
+            case 0x77: movement = 1; break;
+            case 0x61: movement = 2; break;
+            case 0x73: movement = 3; break;
+            case 0x64: movement = 4; break;
+            default: break;
         }
     }
 }
@@ -233,7 +237,15 @@ int main() {
 
         if(ininventory) {
             loadInventoryGUI();
-            // Handle movement in the GUI
+            if(movement) {
+                switch(movement) {
+                    case 1: inventorySlot += 5; break;
+                    case 2: inventorySlot -= 1; break;
+                    case 3: inventorySlot -= 5; break;
+                    case 4: inventorySlot += 1; break;
+                }
+                movement = 0;
+            }
         }
 
         CNFGSwapBuffers();
