@@ -5,7 +5,19 @@
 #define CNFG_IMPLEMENTATION
 #include "rawdraw_sf.h"
 
-void HandleKey( int keycode, int bDown ) { }
+bool ininventory;
+int movement;
+
+void HandleKey( int keycode, int bDown ) {
+    if(keycode == 0x65 && bDown) {
+        ininventory = !ininventory;
+    } else {
+        switch(keycode) {
+            //
+        }
+    }
+}
+
 void HandleButton( int x, int y, int button, int bDown ) { }
 void HandleMotion( int x, int y, int mask ) { }
 int HandleDestroy() { return 0; }
@@ -140,7 +152,7 @@ uint32_t addItemToInventory(uint32_t item) {
 
 void drawItemInGrid(uint32_t x, uint32_t y, uint32_t item) {
     x += 8;
-    y += 8
+    y += 8;
     uint32_t x1 = x;
     uint32_t y1 = y;
     uint32_t x2 = x + 56;
@@ -191,7 +203,7 @@ void reset2x2CraftingGrid() {
 
     drawGUIRowInGrid(208, 72, 2, craftingGrid);
 
-    drawGUIRowInGrid(144, 72, 2, craftingGrid);
+    drawGUIRowInGrid(208, 144, 2, craftingGrid);
 
     drawItem(480, 112, 0, 1);
     drawItemInGrid(480, 112, 0);
@@ -206,7 +218,7 @@ void loadInventoryGUI() {
 
     // Draw arrow
 
-    // The rest of this is just movement code, I can ignore it for now.
+    //
 }
 
 int main() {
@@ -218,5 +230,12 @@ int main() {
         short h;
         CNFGClearFrame();
         CNFGGetDimensions(&w, &h);
+
+        if(ininventory) {
+            loadInventoryGUI();
+            // Handle movement in the GUI
+        }
+
+        CNFGSwapBuffers();
     }
 }
