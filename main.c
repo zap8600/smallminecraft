@@ -2,8 +2,50 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "textures.h"
+
 #define CNFG_IMPLEMENTATION
 #include "rawdraw_sf.h"
+
+void drawTexture(uint32_t x, uint32_t y, uint32_t textureId) {
+    uint32_t texturestart = textureId * 64;
+    uint32_t y1 = y;
+    for(uint32_t i = 0; i < 8; i++) {
+        uint32_t x1 = x;
+        for(uint32_t j = 0; j < 8; j++) {
+            uint8_t pixel = textures_bin[texturestart + (j + (i * 8))];
+            if(pixel) {
+                CNFGColor(0xffffffff);
+                CNFGTackRectangle(x1, y1, x1 + 8, y1 + 8);
+            } else {
+                CNFGColor(0x00000000);
+                CNFGTackRectangle(x1, y1, x1 + 8, y1 + 8);
+            }
+            x1 += 8;
+        }
+        y1 += 8;
+    }
+}
+
+void drawInvTexture(uint32_t x, uint32_t y, uint32_t textureId) {
+    uint32_t texturestart = textureId * 64;
+    uint32_t y1 = y;
+    for(uint32_t i = 0; i < 8; i++) {
+        uint32_t x1 = x;
+        for(uint32_t j = 0; j < 8; j++) {
+            uint8_t pixel = textures_bin[texturestart + (j + (i * 8))];
+            if(pixel) {
+                CNFGColor(0x00000000);
+                CNFGTackRectangle(x1, y1, x1 + 8, y1 + 8);
+            } else {
+                CNFGColor(0xffffffff);
+                CNFGTackRectangle(x1, y1, x1 + 8, y1 + 8);
+            }
+            x1 += 8;
+        }
+        y1 += 8;
+    }
+}
 
 bool ininventory;
 int movement;
@@ -60,19 +102,20 @@ void drawItem(uint32_t x, uint32_t y, uint32_t item, uint32_t isselected) {
     if(item > 0xF0) { // Stackable item
         uint32_t textureid = item >> 4;
         textureid += 0x40;
-        // Get some kind of texture based on this ID and draw it
+        drawTexture(x1, y1, textureid);
 
         item &= 0x0F;
         item += 0x20;
         x1 = x + 16;
         y1 = y + 16;
 
-        // Draw another texture using `item` as the ID
+        drawTexture(x1, y1, item);
         item += 0x10;
-        // Same thing but an inverted texture.
+        drawInvTexture(x1, y1, item);
     } else { // Nonstackable item
         uint32_t textureid = item >> 4;
         textureid += 0x50;
+        drawTexture(x1, y1, textureid);
     }
 
     return;
