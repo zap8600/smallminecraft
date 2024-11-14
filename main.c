@@ -201,6 +201,12 @@ void loadInventoryGUI() {
     drawInventory();
 
     reset2x2CraftingGrid();
+
+    // Draw "INVENTORY"
+
+    // Draw arrow
+
+    // The rest of this is just movement code, I can ignore it for now.
 }
 
 int main() {
