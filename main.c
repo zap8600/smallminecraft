@@ -273,6 +273,7 @@ int main() {
         if(ininventory) {
             loadInventoryGUI();
             if(movement) {
+                uint32_t udamt = 5;
                 //
             }
         }
