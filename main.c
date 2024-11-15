@@ -68,8 +68,6 @@ uint32_t inventorySlot;
 uint32_t craftingGrid[9];
 uint32_t craftingOutput;
 
-uint32_t udamt = 5;
-
 void drawItem(uint32_t x, uint32_t y, uint32_t item) {
     uint32_t x1 = x;
     uint32_t y1 = y;
@@ -275,14 +273,7 @@ int main() {
         if(ininventory) {
             loadInventoryGUI();
             if(movement) {
-                uint32_t nextSlot = inventorySlot;
-                switch(movement) {
-                    case 1: nextSlot += udamt; break;
-                    case 2: nextSlot -= 1; break;
-                    case 3: nextSlot -= udamt; break;
-                    case 4: nextSlot += 1; break;
-                }
-                movement = 0;
+                //
             }
         }
 
