@@ -86,8 +86,6 @@ void drawItem(uint32_t x, uint32_t y, uint32_t item, uint32_t isselected) {
         CNFGColor(0xffffffff);
         CNFGTackRectangle(x1, y1, x2, y2);
 
-        x1 = x;
-        y1 = y;
         x2 = x + 64;
         y2 = y + 64;
     }
@@ -95,7 +93,7 @@ void drawItem(uint32_t x, uint32_t y, uint32_t item, uint32_t isselected) {
     CNFGColor(0x00000000);
     CNFGTackRectangle(x1, y1, x2, y2);
 
-    if(item == 0) {
+    if(!item) {
         return;
     }
 
@@ -115,7 +113,7 @@ void drawItem(uint32_t x, uint32_t y, uint32_t item, uint32_t isselected) {
     } else { // Nonstackable item
         uint32_t textureid = item >> 4;
         textureid += 0x50;
-        //drawTexture(x1 + 8, y1 + 8, textureid);
+        drawTexture(x1 + 8, y1 + 8, textureid);
     }
 
     return;
