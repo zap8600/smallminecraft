@@ -17,9 +17,6 @@ void drawTexture(uint32_t x, uint32_t y, uint32_t textureId) {
             if(pixel) {
                 CNFGColor(0xffffffff);
                 CNFGTackRectangle(x1, y1, x1 + 8, y1 + 8);
-            } else {
-                CNFGColor(0x00000000);
-                CNFGTackRectangle(x1, y1, x1 + 8, y1 + 8);
             }
             x1 += 8;
         }
@@ -36,9 +33,6 @@ void drawInvTexture(uint32_t x, uint32_t y, uint32_t textureId) {
             uint8_t pixel = textures_bin[texturestart + (j + (i * 8))];
             if(pixel) {
                 CNFGColor(0x00000000);
-                CNFGTackRectangle(x1, y1, x1 + 8, y1 + 8);
-            } else {
-                CNFGColor(0xffffffff);
                 CNFGTackRectangle(x1, y1, x1 + 8, y1 + 8);
             }
             x1 += 8;
@@ -86,12 +80,20 @@ void drawItem(uint32_t x, uint32_t y, uint32_t item, uint32_t isselected) {
         CNFGColor(0xffffffff);
         CNFGTackRectangle(x1, y1, x2, y2);
 
+        x1 += 8;
+        y1 += 8;
         x2 = x + 64;
         y2 = y + 64;
-    }
 
-    CNFGColor(0x00000000);
-    CNFGTackRectangle(x1, y1, x2, y2);
+        CNFGColor(0x00000000);
+        CNFGTackRectangle(x1, y1, x2, y2);
+
+        x1 -= 8;
+        y1 -= 8;
+    } else {
+        CNFGColor(0x00000000);
+        CNFGTackRectangle(x1, y1, x2, y2);
+    }
 
     if(!item) {
         return;
@@ -238,7 +240,6 @@ void drawGUIRowInGrid(uint32_t x, uint32_t y, uint32_t length, uint32_t* items) 
 void reset2x2CraftingGrid() {
     uint32_t ind = 0;
     while(ind < 9) {
-        addItemToInventory(craftingGrid[ind]);
         craftingGrid[ind] = 0;
         ind++;
     }
@@ -259,9 +260,20 @@ void loadInventoryGUI() {
 
     reset2x2CraftingGrid();
 
-    // Draw "INVENTORY"
+    uint32_t y1 = 8;
+    uint32_t x1 = 320;
+    uint32_t textureid = 0x70;
+    for(uint32_t i = 0; i < 5; i++) {
+        drawInvTexture(x1, y1, textureid);
+        x1 += 64;
+        textureid++;
+    }
 
-    // Draw arrow
+    x1 = 368;
+    y1 = 120;
+    drawInvTexture(x1, y1, 0x63);
+    x1 = 432;
+    drawInvTexture(x1, y1, 0x64);
 
     //
 }
