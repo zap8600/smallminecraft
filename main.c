@@ -68,7 +68,9 @@ uint32_t inventorySlot;
 uint32_t craftingGrid[9];
 uint32_t craftingOutput;
 
-void drawItem(uint32_t x, uint32_t y, uint32_t item, uint32_t isselected) {
+uint32_t udamt = 5;
+
+void drawItem(uint32_t x, uint32_t y, uint32_t item) {
     uint32_t x1 = x;
     uint32_t y1 = y;
     uint32_t x2 = x + 80;
@@ -76,24 +78,8 @@ void drawItem(uint32_t x, uint32_t y, uint32_t item, uint32_t isselected) {
     x += 8;
     y += 8;
 
-    if(!isselected) {
-        CNFGColor(0xffffffff);
-        CNFGTackRectangle(x1, y1, x2, y2);
-
-        x1 += 8;
-        y1 += 8;
-        x2 = x + 64;
-        y2 = y + 64;
-
-        CNFGColor(0x00000000);
-        CNFGTackRectangle(x1, y1, x2, y2);
-
-        x1 -= 8;
-        y1 -= 8;
-    } else {
-        CNFGColor(0x00000000);
-        CNFGTackRectangle(x1, y1, x2, y2);
-    }
+    CNFGColor(0x00000000);
+    CNFGTackRectangle(x1, y1, x2, y2);
 
     if(!item) {
         return;
@@ -121,13 +107,11 @@ void drawItem(uint32_t x, uint32_t y, uint32_t item, uint32_t isselected) {
     return;
 }
 
-void drawGUIRow(uint32_t x, uint32_t y, uint32_t length, uint32_t* items, uint32_t selecteditem) {
+void drawGUIRow(uint32_t x, uint32_t y, uint32_t length, uint32_t* items) {
     uint32_t isselected = 0;
-    selecteditem = length - selecteditem;
     uint32_t ind = 0;
     while(length != 0) {
-        isselected = length - selecteditem;
-        drawItem(x, y, items[ind], isselected);
+        drawItem(x, y, items[ind]);
         x += 88;
         ind++;
         length--;
@@ -149,11 +133,11 @@ void drawInventory() {
     CNFGColor(0xffffffff);
     CNFGTackRectangle(160, 232, 608, 512);
 
-    drawGUIRow(168, 424, 5, inventory, inventorySlot);
+    drawGUIRow(168, 424, 5, inventory);
 
-    drawGUIRow(168, 328, 5, &inventory[5], inventorySlot - 5);
+    drawGUIRow(168, 328, 5, &inventory[5]);
 
-    drawGUIRow(168, 240, 5, &inventory[10], inventorySlot - 10);
+    drawGUIRow(168, 240, 5, &inventory[10]);
 }
 
 uint32_t addItemToInventory(uint32_t item) {
@@ -251,7 +235,7 @@ void reset2x2CraftingGrid() {
 
     drawGUIRowInGrid(208, 144, 2, craftingGrid);
 
-    drawItem(480, 112, 0, 1);
+    drawItem(480, 112, 0);
     drawItemInGrid(480, 112, 0);
 }
 
@@ -291,11 +275,12 @@ int main() {
         if(ininventory) {
             loadInventoryGUI();
             if(movement) {
+                uint32_t nextSlot = inventorySlot;
                 switch(movement) {
-                    case 1: inventorySlot += 5; break;
-                    case 2: inventorySlot -= 1; break;
-                    case 3: inventorySlot -= 5; break;
-                    case 4: inventorySlot += 1; break;
+                    case 1: nextSlot += udamt; break;
+                    case 2: nextSlot -= 1; break;
+                    case 3: nextSlot -= udamt; break;
+                    case 4: nextSlot += 1; break;
                 }
                 movement = 0;
             }
